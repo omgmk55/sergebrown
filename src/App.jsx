@@ -23,7 +23,7 @@ function GlobalAudioPlayer() {
 
 function AppContent() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <div className="relative min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1">
