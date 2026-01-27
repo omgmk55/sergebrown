@@ -19,7 +19,7 @@ export default function Gallery() {
             category: 'concerts',
             title: 'Concert Live - The Apollo',
             date: '2026',
-            image: '/gallery/concert1.png'
+            image: `${import.meta.env.BASE_URL}gallery/concert1.png`
         },
         {
             id: 2,
@@ -27,7 +27,7 @@ export default function Gallery() {
             category: 'studio',
             title: 'Session Studio',
             date: '2025',
-            image: '/gallery/studio1.png'
+            image: `${import.meta.env.BASE_URL}gallery/studio1.png`
         },
         {
             id: 3,
@@ -35,7 +35,7 @@ export default function Gallery() {
             category: 'concerts',
             title: 'Aurora Festival',
             date: '2025',
-            image: '/gallery/concert2.png'
+            image: `${import.meta.env.BASE_URL}gallery/concert2.png`
         },
         {
             id: 4,
@@ -43,7 +43,7 @@ export default function Gallery() {
             category: 'studio',
             title: 'Behind the Scenes',
             date: '2025',
-            image: '/gallery/studio2.png'
+            image: `${import.meta.env.BASE_URL}gallery/studio2.png`
         },
         {
             id: 5,
@@ -51,7 +51,7 @@ export default function Gallery() {
             category: 'concerts',
             title: 'Festival Sunset',
             date: '2026',
-            image: '/gallery/concert3.png'
+            image: `${import.meta.env.BASE_URL}gallery/concert3.png`
         },
         {
             id: 6,
@@ -59,7 +59,7 @@ export default function Gallery() {
             category: 'concerts',
             title: 'Portrait Artistique',
             date: '2026',
-            image: '/gallery/portrait1.png'
+            image: `${import.meta.env.BASE_URL}gallery/portrait1.png`
         },
     ];
 
@@ -98,8 +98,8 @@ export default function Gallery() {
                                 key={category.id}
                                 onClick={() => setSelectedCategory(category.id)}
                                 className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${selectedCategory === category.id
-                                        ? 'bg-gradient-gold text-rich-black scale-105'
-                                        : 'glass text-off-white hover:bg-white/10'
+                                    ? 'bg-gradient-gold text-rich-black scale-105'
+                                    : 'glass text-off-white hover:bg-white/10'
                                     }`}
                             >
                                 <Icon className="w-5 h-5" />

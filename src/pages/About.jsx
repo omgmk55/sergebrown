@@ -58,7 +58,7 @@ export default function About() {
                         <div className="aspect-square glass-dark rounded-2xl overflow-hidden relative">
                             <div className="absolute inset-0 bg-gradient-to-br from-gold/10 to-transparent" />
                             <img
-                                src="/serge-brown.png"
+                                src={`${import.meta.env.BASE_URL}serge-brown.png`}
                                 alt="Serge Brown"
                                 className="absolute inset-0 w-full h-full object-cover"
                             />

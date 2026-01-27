@@ -228,7 +228,7 @@ export default function Home() {
                                 className="aspect-square glass rounded-2xl overflow-hidden relative group"
                             >
                                 <img
-                                    src={`/gallery/${index === 0 ? 'concert1.png' : index === 1 ? 'studio1.png' : 'concert2.png'}`}
+                                    src={`${import.meta.env.BASE_URL}gallery/${index === 0 ? 'concert1.png' : index === 1 ? 'studio1.png' : 'concert2.png'}`}
                                     alt="Gallery preview"
                                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
