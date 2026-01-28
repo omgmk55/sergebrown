@@ -36,6 +36,7 @@ export default function Navbar() {
         ...(isLoggedIn ? [{ name: 'Fan Zone', path: '/fan-zone' }] : []),
     ];
 
+    // Navigation links - Updated 2026-01-28
     return (
         <>
             <motion.nav
