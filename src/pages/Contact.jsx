@@ -39,7 +39,7 @@ export default function Contact() {
     ];
 
     return (
-        <div className="min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen pt-24 pb-20 px-3 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <motion.div
@@ -47,10 +47,10 @@ export default function Contact() {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center mb-16"
                 >
-                    <h1 className="text-5xl sm:text-6xl md:text-7xl font-outfit mb-6">
+                    <h1 className="text-4xl sm:text-5xl md:text-7xl font-outfit mb-6">
                         <span className="text-gradient">Contact</span>
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+                    <p className="text-base sm:text-xl text-gray-400 max-w-2xl mx-auto">
                         Une question ? Un projet de collaboration ? N'hésitez pas à me contacter.
                     </p>
                 </motion.div>
@@ -62,10 +62,10 @@ export default function Contact() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.2 }}
                     >
-                        <div className="glass-dark p-6 sm:p-8 rounded-2xl">
-                            <h2 className="text-2xl sm:text-3xl font-outfit font-bold mb-4 sm:mb-6">Envoyez-moi un message</h2>
+                        <div className="glass-dark p-4 sm:p-6 md:p-8 rounded-2xl">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-outfit font-bold mb-3 sm:mb-4 md:mb-6">Envoyez-moi un message</h2>
 
-                            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4 md:space-y-6">
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                                         Nom complet
@@ -149,8 +149,8 @@ export default function Contact() {
                         className="space-y-8"
                     >
                         {/* Contact Information */}
-                        <div className="glass-dark p-6 sm:p-8 rounded-2xl">
-                            <h2 className="text-2xl sm:text-3xl font-outfit font-bold mb-4 sm:mb-6">Informations de contact</h2>
+                        <div className="glass-dark p-4 sm:p-6 md:p-8 rounded-2xl">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-outfit font-bold mb-3 sm:mb-4 md:mb-6">Informations de contact</h2>
 
                             <div className="space-y-4">
                                 {contactInfo.map((info, index) => {
@@ -177,10 +177,10 @@ export default function Contact() {
                         </div>
 
                         {/* Social Media */}
-                        <div className="glass-dark p-6 sm:p-8 rounded-2xl">
-                            <h2 className="text-2xl sm:text-3xl font-outfit font-bold mb-4 sm:mb-6">Réseaux Sociaux</h2>
+                        <div className="glass-dark p-4 sm:p-6 md:p-8 rounded-2xl">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-outfit font-bold mb-3 sm:mb-4 md:mb-6">Réseaux Sociaux</h2>
 
-                            <p className="text-gray-300 mb-6">
+                            <p className="text-sm sm:text-base text-gray-300 mb-4 sm:mb-6">
                                 Suivez-moi sur les réseaux sociaux pour ne rien manquer de mon actualité !
                             </p>
 
@@ -203,9 +203,9 @@ export default function Contact() {
                         </div>
 
                         {/* Booking Info */}
-                        <div className="glass-dark p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-gold/10 to-transparent border-gold/20">
-                            <h3 className="text-xl sm:text-2xl font-outfit font-bold mb-4 text-gold">Booking & Collaborations</h3>
-                            <p className="text-gray-300 mb-4">
+                        <div className="glass-dark p-4 sm:p-6 md:p-8 rounded-2xl bg-gradient-to-br from-gold/10 to-transparent border-gold/20">
+                            <h3 className="text-lg sm:text-xl md:text-2xl font-outfit font-bold mb-3 sm:mb-4 text-gold">Booking & Collaborations</h3>
+                            <p className="text-sm sm:text-base text-gray-300 mb-3 sm:mb-4">
                                 Disponible pour des concerts, événements privés et collaborations artistiques.
                             </p>
                             <a
