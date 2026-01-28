@@ -33,14 +33,14 @@ const CountdownTimer = memo(({ targetDate, eventTitle, formatDate }) => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="glass-dark p-8 rounded-2xl mb-12 bg-gradient-to-br from-gold/10 to-transparent border-gold/20"
+            className="glass-dark p-6 sm:p-8 rounded-2xl mb-12 bg-gradient-to-br from-gold/10 to-transparent border-gold/20"
         >
             <div className="text-center mb-6">
                 <h2 className="text-2xl font-outfit font-bold mb-2">Prochain Concert</h2>
                 <p className="text-gray-400">{eventTitle} - {formatDate}</p>
             </div>
 
-            <div className="grid grid-cols-4 gap-4 max-w-2xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
                 {[
                     { label: 'Jours', value: timeLeft.days },
                     { label: 'Heures', value: timeLeft.hours },
@@ -68,7 +68,7 @@ const EventCard = memo(({ event, isPast = false }) => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         whileHover={{ y: -5 }}
-        className="glass-dark p-6 rounded-2xl hover:bg-white/5 transition-all duration-300"
+        className="glass-dark p-4 sm:p-6 rounded-2xl hover:bg-white/5 transition-all duration-300"
     >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             {/* Date Circle */}
@@ -126,8 +126,8 @@ const EventCard = memo(({ event, isPast = false }) => (
                     <a
                         href={event.ticketUrl}
                         className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${event.status === 'available'
-                                ? 'bg-gradient-gold text-rich-black hover:scale-105'
-                                : 'glass text-gray-400 cursor-not-allowed'
+                            ? 'bg-gradient-gold text-rich-black hover:scale-105'
+                            : 'glass text-gray-400 cursor-not-allowed'
                             }`}
                     >
                         <Ticket className="w-5 h-5" />

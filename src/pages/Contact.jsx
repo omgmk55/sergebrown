@@ -62,7 +62,7 @@ export default function Contact() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.2 }}
                     >
-                        <div className="glass-dark p-8 rounded-2xl">
+                        <div className="glass-dark p-6 sm:p-8 rounded-2xl">
                             <h2 className="text-3xl font-outfit font-bold mb-6">Envoyez-moi un message</h2>
 
                             <form onSubmit={handleSubmit} className="space-y-6">
