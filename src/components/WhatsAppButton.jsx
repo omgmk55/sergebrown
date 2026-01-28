@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { MessageCircle } from 'lucide-react';
+import { Phone } from 'lucide-react';
 import { useAudio } from '../context/AudioContext';
 
 export default function WhatsAppButton() {
-    const phoneNumber = '1234567890'; // Replace with actual number
+    const phoneNumber = '243816409670'; // Numéro WhatsApp
     const message = "Bonjour Serge Brown, j'aimerais avoir plus d'infos !";
     const { currentTrack } = useAudio();
 
@@ -25,7 +25,7 @@ export default function WhatsAppButton() {
             className="fixed right-6 z-40 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:shadow-green-500/30 transition-shadow flex items-center justify-center group"
             style={{ bottom: currentTrack ? '8rem' : '1.5rem' }}
         >
-            <MessageCircle className="w-8 h-8 fill-current" />
+            <Phone className="w-8 h-8 fill-current" />
             <span className="absolute right-full mr-4 bg-white/10 backdrop-blur-md px-4 py-2 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
                 Discuter sur WhatsApp
             </span>
