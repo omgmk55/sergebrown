@@ -63,9 +63,9 @@ export default function Contact() {
                         transition={{ delay: 0.2 }}
                     >
                         <div className="glass-dark p-6 sm:p-8 rounded-2xl">
-                            <h2 className="text-3xl font-outfit font-bold mb-6">Envoyez-moi un message</h2>
+                            <h2 className="text-2xl sm:text-3xl font-outfit font-bold mb-4 sm:mb-6">Envoyez-moi un message</h2>
 
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                                         Nom complet
@@ -149,8 +149,8 @@ export default function Contact() {
                         className="space-y-8"
                     >
                         {/* Contact Information */}
-                        <div className="glass-dark p-8 rounded-2xl">
-                            <h2 className="text-3xl font-outfit font-bold mb-6">Informations de contact</h2>
+                        <div className="glass-dark p-6 sm:p-8 rounded-2xl">
+                            <h2 className="text-2xl sm:text-3xl font-outfit font-bold mb-4 sm:mb-6">Informations de contact</h2>
 
                             <div className="space-y-4">
                                 {contactInfo.map((info, index) => {
@@ -177,8 +177,8 @@ export default function Contact() {
                         </div>
 
                         {/* Social Media */}
-                        <div className="glass-dark p-8 rounded-2xl">
-                            <h2 className="text-3xl font-outfit font-bold mb-6">Réseaux Sociaux</h2>
+                        <div className="glass-dark p-6 sm:p-8 rounded-2xl">
+                            <h2 className="text-2xl sm:text-3xl font-outfit font-bold mb-4 sm:mb-6">Réseaux Sociaux</h2>
 
                             <p className="text-gray-300 mb-6">
                                 Suivez-moi sur les réseaux sociaux pour ne rien manquer de mon actualité !
@@ -203,8 +203,8 @@ export default function Contact() {
                         </div>
 
                         {/* Booking Info */}
-                        <div className="glass-dark p-8 rounded-2xl bg-gradient-to-br from-gold/10 to-transparent border-gold/20">
-                            <h3 className="text-2xl font-outfit font-bold mb-4 text-gold">Booking & Collaborations</h3>
+                        <div className="glass-dark p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-gold/10 to-transparent border-gold/20">
+                            <h3 className="text-xl sm:text-2xl font-outfit font-bold mb-4 text-gold">Booking & Collaborations</h3>
                             <p className="text-gray-300 mb-4">
                                 Disponible pour des concerts, événements privés et collaborations artistiques.
                             </p>
