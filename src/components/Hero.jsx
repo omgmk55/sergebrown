@@ -35,7 +35,7 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6, duration: 0.8 }}
-                        className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                        className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
                     >
                         <button className="group flex items-center space-x-2 bg-gradient-gold text-rich-black px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform duration-300">
                             <Play className="w-5 h-5" fill="currentColor" />
