@@ -62,7 +62,8 @@ const dbPromise = new Promise((resolve, reject) => {
             galleryStore.clear(); // Ensure clean slate
             DEFAULT_DATA.gallery.forEach(item => galleryStore.put(item));
         }
-    });
+    };
+});
 
 const getParams = (storeName) => ({
     storeName,
