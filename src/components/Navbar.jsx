@@ -2,24 +2,29 @@ import { useState } from 'react';
 import { Menu, X, Music, User, LogOut, Settings, ChevronRight, Mail, Lock, LayoutDashboard } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
+    const { user, isAdmin, login, logout } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [authMode, setAuthMode] = useState('login'); // 'login' or 'signup'
+    const isLoggedIn = !!user;
 
 
     const handleLogin = (e) => {
         e.preventDefault();
-        setIsLoggedIn(true);
-        setShowLoginModal(false);
-        // Optional: Redirect to fan zone or show notification
+        const formData = new FormData(e.target);
+        const email = formData.get('email');
+        if (email) {
+            login(email);
+            setShowLoginModal(false);
+        }
     };
 
     const handleLogout = () => {
-        setIsLoggedIn(false);
+        logout();
         setShowProfileMenu(false);
     };
 
@@ -93,8 +98,8 @@ export default function Navbar() {
                                             className="absolute right-0 mt-2 w-64 glass-dark rounded-xl border border-white/10 shadow-xl overflow-hidden"
                                         >
                                             <div className="p-4 border-b border-white/10">
-                                                <div className="font-bold text-white">Serge Fan</div>
-                                                <div className="text-xs text-gray-400">fan@sergebrown.com</div>
+                                                <div className="font-bold text-white">{user?.name || 'Fan'}</div>
+                                                <div className="text-xs text-gray-400">{user?.email}</div>
                                             </div>
                                             <div className="py-2">
                                                 <Link
@@ -112,13 +117,15 @@ export default function Navbar() {
                                                     <Settings className="w-4 h-4" /> Paramètres
                                                 </Link>
                                                 <div className="border-t border-white/10 my-1" />
-                                                <Link
-                                                    to="/admin"
-                                                    onClick={() => setShowProfileMenu(false)}
-                                                    className="w-full px-4 py-2 text-left text-gold hover:bg-white/5 flex items-center gap-3 transition-colors block"
-                                                >
-                                                    <LayoutDashboard className="w-4 h-4" /> Dashboard
-                                                </Link>
+                                                {isAdmin && (
+                                                    <Link
+                                                        to="/admin"
+                                                        onClick={() => setShowProfileMenu(false)}
+                                                        className="w-full px-4 py-2 text-left text-gold hover:bg-white/5 flex items-center gap-3 transition-colors block"
+                                                    >
+                                                        <LayoutDashboard className="w-4 h-4" /> Dashboard
+                                                    </Link>
+                                                )}
                                                 <div className="border-t border-white/10 my-1" />
                                                 <button
                                                     onClick={handleLogout}
@@ -232,6 +239,7 @@ export default function Navbar() {
                                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                                         <input
                                             type="email"
+                                            name="email"
                                             className="w-full bg-black/30 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:outline-none focus:border-gold/50 transition-colors"
                                             placeholder="votre@email.com"
                                             required

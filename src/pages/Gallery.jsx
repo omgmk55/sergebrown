@@ -1,3 +1,4 @@
+import { dataService } from '../services/dataService';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { X, Play, Image as ImageIcon, Video, Camera, Mic } from 'lucide-react';
@@ -5,62 +6,12 @@ import { X, Play, Image as ImageIcon, Video, Camera, Mic } from 'lucide-react';
 export default function Gallery() {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [lightboxImage, setLightboxImage] = useState(null);
+    const galleryItems = dataService.getGallery();
 
     const categories = [
         { id: 'all', name: 'Tout', icon: ImageIcon },
         { id: 'concerts', name: 'Concerts', icon: Mic },
         { id: 'studio', name: 'Studio', icon: Camera },
-    ];
-
-    const galleryItems = [
-        {
-            id: 1,
-            type: 'image',
-            category: 'concerts',
-            title: 'Concert Live - The Apollo',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/concert1.png`
-        },
-        {
-            id: 2,
-            type: 'image',
-            category: 'studio',
-            title: 'Session Studio',
-            date: '2025',
-            image: `${import.meta.env.BASE_URL}gallery/studio1.png`
-        },
-        {
-            id: 3,
-            type: 'image',
-            category: 'concerts',
-            title: 'Aurora Festival',
-            date: '2025',
-            image: `${import.meta.env.BASE_URL}gallery/concert2.png`
-        },
-        {
-            id: 4,
-            type: 'image',
-            category: 'studio',
-            title: 'Behind the Scenes',
-            date: '2025',
-            image: `${import.meta.env.BASE_URL}gallery/studio2.png`
-        },
-        {
-            id: 5,
-            type: 'image',
-            category: 'concerts',
-            title: 'Festival Sunset',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/concert3.png`
-        },
-        {
-            id: 6,
-            type: 'image',
-            category: 'concerts',
-            title: 'Portrait Artistique',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/portrait1.png`
-        },
     ];
 
     const filteredItems = selectedCategory === 'all'

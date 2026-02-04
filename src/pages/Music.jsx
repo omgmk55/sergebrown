@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { dataService } from '../services/dataService';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Music2, ExternalLink, Play } from 'lucide-react';
 import { useAudio } from '../context/AudioContext';
@@ -6,6 +7,7 @@ import { useAudio } from '../context/AudioContext';
 export default function Music() {
     const { playTrack } = useAudio();
     const [counts, setCounts] = useState({ 0: 1254, 1: 856, 2: 3421, 3: 982 }); // Mock initial counts
+    const [discography, setDiscography] = useState(dataService.getSongs());
 
     const handlePlay = (track, id) => {
         playTrack(track);
@@ -20,33 +22,6 @@ export default function Music() {
         { name: 'Apple Music', url: '#', color: '#FA243C' },
         { name: 'YouTube', url: '#', color: '#FF0000' },
         { name: 'Deezer', url: '#', color: '#FEAA2D' },
-    ];
-
-    const discography = [
-        {
-            id: 1,
-            title: 'Titre du Single',
-            year: '2026',
-            type: 'Single',
-            description: 'Mon dernier single qui mélange des sonorités modernes avec des influences traditionnelles.',
-            audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' // Sample audio
-        },
-        {
-            id: 2,
-            title: 'Album Précédent',
-            year: '2025',
-            type: 'Album',
-            description: 'Un projet complet qui explore différentes facettes de mon univers musical.',
-            audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
-        },
-        {
-            id: 3,
-            title: 'Premier EP',
-            year: '2024',
-            type: 'EP',
-            description: 'Mes premiers pas dans l\'industrie musicale avec 5 titres originaux.',
-            audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
-        },
     ];
 
     return (

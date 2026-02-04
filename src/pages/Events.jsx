@@ -1,3 +1,4 @@
+import { dataService } from '../services/dataService';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Clock, Ticket, ExternalLink, CheckCircle, XCircle } from 'lucide-react';
 import { useState, useEffect, useMemo, memo } from 'react';
@@ -145,59 +146,18 @@ EventCard.displayName = 'EventCard';
 export default function Events() {
     const [showPastEvents, setShowPastEvents] = useState(false);
 
-    // Sample events data - memoized to prevent recreation on every render
-    const upcomingEvents = useMemo(() => [
-        {
-            id: 1,
-            title: 'Concert Live Paris',
-            venue: 'Olympia',
-            city: 'Paris',
-            country: 'France',
-            date: '2026-03-15',
-            time: '20:00',
-            status: 'available',
-            ticketUrl: '#',
-            description: 'Un concert exceptionnel dans la salle mythique de l\'Olympia'
-        },
-        {
-            id: 2,
-            title: 'Festival Summer Vibes',
-            venue: 'Parc des Expositions',
-            city: 'Lyon',
-            country: 'France',
-            date: '2026-06-20',
-            time: '18:30',
-            status: 'available',
-            ticketUrl: '#',
-            description: 'Performance au grand festival d\'été'
-        },
-        {
-            id: 3,
-            title: 'Tournée Européenne',
-            venue: 'Ancienne Belgique',
-            city: 'Bruxelles',
-            country: 'Belgique',
-            date: '2026-09-10',
-            time: '21:00',
-            status: 'sold-out',
-            ticketUrl: '#',
-            description: 'Date complète - Liste d\'attente disponible'
-        },
-    ], []);
+    // Fetch all events from dataService
+    const allEvents = dataService.getEvents();
 
-    const pastEvents = useMemo(() => [
-        {
-            id: 4,
-            title: 'Première Show',
-            venue: 'Le Trianon',
-            city: 'Paris',
-            country: 'France',
-            date: '2025-11-20',
-            time: '20:00',
-            status: 'completed',
-            description: 'Premier concert solo à guichets fermés'
-        },
-    ], []);
+    const upcomingEvents = useMemo(() => {
+        const today = new Date();
+        return allEvents.filter(e => new Date(e.date) >= today).sort((a, b) => new Date(a.date) - new Date(b.date));
+    }, [allEvents]);
+
+    const pastEvents = useMemo(() => {
+        const today = new Date();
+        return allEvents.filter(e => new Date(e.date) < today).sort((a, b) => new Date(b.date) - new Date(a.date));
+    }, [allEvents]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);

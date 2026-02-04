@@ -50,11 +50,15 @@ function AppContent() {
   );
 }
 
+import { AuthProvider } from './context/AuthContext';
+
 function App() {
   return (
-    <AudioProvider>
-      <AppContent />
-    </AudioProvider>
+    <AuthProvider>
+      <AudioProvider>
+        <AppContent />
+      </AudioProvider>
+    </AuthProvider>
   );
 }
 
