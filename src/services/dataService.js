@@ -1,4 +1,4 @@
-import { initialData } from '../data/initialData';
+import { getInitialData } from '../data/initialData';
 
 const DB_NAME = 'SergeBrownDB';
 const DB_VERSION = 2;
@@ -8,7 +8,7 @@ const STORES = {
     GALLERY: 'gallery'
 };
 
-const DEFAULT_DATA = initialData || {
+const DEFAULT_DATA = getInitialData() || {
     songs: [
         {
             id: 1,
