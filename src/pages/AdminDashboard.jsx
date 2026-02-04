@@ -104,8 +104,8 @@ export default function AdminDashboard() {
 
         if (type === 'audio') {
             // Audio limit check (keep at 5MB or increase slightly if needed, but LS is limited)
-            if (file.size > 5 * 1024 * 1024) {
-                alert("Le fichier audio est trop volumineux (max 5Mo). Pour des fichiers plus lourds, utilisez un lien externe.");
+            if (file.size > 15 * 1024 * 1024) {
+                alert("Le fichier audio est trop volumineux (max 15Mo). Pour les fichiers plus lourds (ex: 20Mo), il est préférable d'utiliser un lien externe (SoundCloud, Dropbox...) pour ne pas ralentir le site.");
                 return;
             }
             const reader = new FileReader();
