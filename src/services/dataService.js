@@ -233,5 +233,34 @@ export const dataService = {
     deleteGalleryItem: async (id) => {
         await execute(STORES.GALLERY, 'readwrite', store => store.delete(id));
         return dataService.getGallery();
+    },
+
+    // EXPORT ALL DATA
+    exportAllData: async () => {
+        const [songs, events, gallery] = await Promise.all([
+            dataService.getSongs(),
+            dataService.getEvents(),
+            dataService.getGallery()
+        ]);
+
+        const exportData = {
+            songs,
+            events,
+            gallery,
+            exportDate: new Date().toISOString()
+        };
+
+        // Create downloadable JSON file
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `sergebrown-data-${Date.now()}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        return exportData;
     }
 };

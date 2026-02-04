@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import {
     Music, Calendar, Image as ImageIcon, LayoutDashboard,
-    Plus, Trash2, Edit2, Save, X, Upload, FileAudio
+    Plus, Trash2, Edit2, Save, X, Upload, FileAudio, Download
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -50,6 +50,16 @@ export default function AdminDashboard() {
             if (type === 'music') setSongs(await dataService.deleteSong(id));
             if (type === 'events') setEvents(await dataService.deleteEvent(id));
             if (type === 'gallery') setGallery(await dataService.deleteGalleryItem(id));
+        }
+    };
+
+    const handleExport = async () => {
+        try {
+            await dataService.exportAllData();
+            alert('✅ Données exportées avec succès!\n\nEnvoyez le fichier JSON téléchargé pour l\'intégrer dans le site.');
+        } catch (error) {
+            console.error('Export error:', error);
+            alert('❌ Erreur lors de l\'export des données.');
         }
     };
 
@@ -205,12 +215,21 @@ export default function AdminDashboard() {
                                     <h2 className="text-2xl font-bold font-outfit capitalize">
                                         Gestion {activeTab === 'music' ? 'Musique' : activeTab === 'events' ? 'Concerts' : 'Galerie'}
                                     </h2>
-                                    <button
-                                        onClick={() => openModal()}
-                                        className="flex items-center gap-2 bg-white/10 hover:bg-gold hover:text-rich-black text-white px-4 py-2 rounded-lg transition-colors font-medium"
-                                    >
-                                        <Plus className="w-4 h-4" /> Ajouter
-                                    </button>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={handleExport}
+                                            className="flex items-center gap-2 bg-white/10 hover:bg-blue-500 hover:text-white text-gray-300 px-4 py-2 rounded-lg transition-colors font-medium"
+                                            title="Exporter toutes les données"
+                                        >
+                                            <Download className="w-4 h-4" /> Exporter
+                                        </button>
+                                        <button
+                                            onClick={() => openModal()}
+                                            className="flex items-center gap-2 bg-white/10 hover:bg-gold hover:text-rich-black text-white px-4 py-2 rounded-lg transition-colors font-medium"
+                                        >
+                                            <Plus className="w-4 h-4" /> Ajouter
+                                        </button>
+                                    </div>
                                 </div>
 
                                 {/* Music List */}
