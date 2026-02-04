@@ -55,11 +55,30 @@ export default function AdminDashboard() {
 
     const handleExport = async () => {
         try {
-            await dataService.exportAllData();
-            alert('✅ Données exportées avec succès!\n\nEnvoyez le fichier JSON téléchargé pour l\'intégrer dans le site.');
+            const [songs, events, gallery] = await Promise.all([
+                dataService.getSongs(),
+                dataService.getEvents(),
+                dataService.getGallery()
+            ]);
+
+            const exportData = {
+                songs,
+                events,
+                gallery,
+                exportDate: new Date().toISOString()
+            };
+
+            const jsonString = JSON.stringify(exportData, null, 2);
+
+            // Copy to clipboard
+            await navigator.clipboard.writeText(jsonString);
+
+            alert('✅ Données copiées dans le presse-papiers!\n\n' +
+                '📋 Collez maintenant (Ctrl+V) dans le chat pour m\'envoyer vos données.\n\n' +
+                `📊 Total: ${songs.length} chansons, ${gallery.length} images, ${events.length} événements`);
         } catch (error) {
             console.error('Export error:', error);
-            alert('❌ Erreur lors de l\'export des données.');
+            alert('❌ Erreur lors de l\'export des données.\n\nVérifiez que vous avez autorisé l\'accès au presse-papiers.');
         }
     };
 
