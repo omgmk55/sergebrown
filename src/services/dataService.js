@@ -184,6 +184,26 @@ export const dataService = {
         await execute(STORES.SONGS, 'readwrite', store => store.delete(id));
         return dataService.getSongs();
     },
+    incrementSongListeners: async (id) => {
+        const db = await dbPromise;
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction(STORES.SONGS, 'readwrite');
+            const store = transaction.objectStore(STORES.SONGS);
+            const request = store.get(id);
+
+            request.onsuccess = () => {
+                const song = request.result;
+                if (song) {
+                    song.listeners = (song.listeners || 0) + 1;
+                    store.put(song);
+                    resolve(song.listeners);
+                } else {
+                    resolve(0);
+                }
+            };
+            request.onerror = () => reject(request.error);
+        });
+    },
 
     // EVENTS
     getEvents: async () => {

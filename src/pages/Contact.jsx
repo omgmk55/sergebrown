@@ -27,8 +27,8 @@ export default function Contact() {
 
     const contactInfo = [
         { icon: Mail, label: 'Email', value: 'contact@sergebrown.com', href: 'mailto:contact@sergebrown.com' },
-        { icon: Phone, label: 'Téléphone', value: '+33 X XX XX XX XX', href: 'tel:+33XXXXXXXXX' },
-        { icon: MapPin, label: 'Localisation', value: 'Paris, France', href: '#' },
+        { icon: Phone, label: 'Téléphone', value: '+243 81 640 96 70', href: 'tel:+243816409670' },
+        { icon: MapPin, label: 'Localisation', value: 'Kinshasa, RDC', href: '#' },
     ];
 
     const socialLinks = [

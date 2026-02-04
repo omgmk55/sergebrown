@@ -5,8 +5,7 @@ import { Music2, ExternalLink, Play } from 'lucide-react';
 import { useAudio } from '../context/AudioContext';
 
 export default function Music() {
-    const { playTrack } = useAudio();
-    const [counts, setCounts] = useState({ 0: 1254, 1: 856, 2: 3421, 3: 982 }); // Mock initial counts
+    const { playTrack, currentTrack } = useAudio();
     const [discography, setDiscography] = useState([]);
 
     useEffect(() => {
@@ -14,11 +13,21 @@ export default function Music() {
     }, []);
 
     const handlePlay = (track, id) => {
+        // If same track is already playing (by ID check), don't increment
+        if (currentTrack?.id === track.id) {
+            playTrack(track);
+            return;
+        }
+
         playTrack(track);
-        setCounts(prev => ({
-            ...prev,
-            [id]: (prev[id] || 0) + 1
-        }));
+
+        // Optimistic update
+        setDiscography(prev => prev.map(song =>
+            song.id === id ? { ...song, listeners: (song.listeners || 0) + 1 } : song
+        ));
+
+        // Persist to DB
+        dataService.incrementSongListeners(id);
     };
 
     const streamingPlatforms = [
@@ -97,7 +106,7 @@ export default function Music() {
                                     <span>Écouter un extrait</span>
                                 </button>
                                 <span className="text-sm text-gray-400 ml-4">
-                                    {counts[0]?.toLocaleString()} écoutes
+                                    {(discography[0]?.listeners || 0).toLocaleString()} écoutes
                                 </span>
                             </div>
 
@@ -159,14 +168,14 @@ export default function Music() {
                                         <span>Écouter</span>
                                     </button>
                                     <span className="text-xs text-gray-500">
-                                        {(counts[release.id] || 0).toLocaleString()} écoutes
+                                        {(release.listeners || 0).toLocaleString()} écoutes
                                     </span>
                                 </div>
                             </motion.div>
                         ))}
                     </div>
                 </motion.div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }

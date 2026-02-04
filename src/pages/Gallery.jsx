@@ -1,6 +1,6 @@
 import { dataService } from '../services/dataService';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Play, Image as ImageIcon, Video, Camera, Mic } from 'lucide-react';
 
 export default function Gallery() {
