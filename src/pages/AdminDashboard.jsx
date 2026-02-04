@@ -73,8 +73,8 @@ export default function AdminDashboard() {
                     const canvas = document.createElement('canvas');
                     let width = img.width;
                     let height = img.height;
-                    const MAX_WIDTH = 600;
-                    const MAX_HEIGHT = 600;
+                    const MAX_WIDTH = 1920;
+                    const MAX_HEIGHT = 1920;
 
                     if (width > height) {
                         if (width > MAX_WIDTH) {
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
                     canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
-                    resolve(canvas.toDataURL('image/jpeg', 0.6)); // Compress to JPEG with 60% quality
+                    resolve(canvas.toDataURL('image/jpeg', 0.85)); // Compress to JPEG with 85% quality (High Quality)
                 };
             };
         });
