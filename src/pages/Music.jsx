@@ -7,7 +7,11 @@ import { useAudio } from '../context/AudioContext';
 export default function Music() {
     const { playTrack } = useAudio();
     const [counts, setCounts] = useState({ 0: 1254, 1: 856, 2: 3421, 3: 982 }); // Mock initial counts
-    const [discography, setDiscography] = useState(dataService.getSongs());
+    const [discography, setDiscography] = useState([]);
+
+    useEffect(() => {
+        dataService.getSongs().then(setDiscography);
+    }, []);
 
     const handlePlay = (track, id) => {
         playTrack(track);

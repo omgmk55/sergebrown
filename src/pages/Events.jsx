@@ -147,17 +147,21 @@ export default function Events() {
     const [showPastEvents, setShowPastEvents] = useState(false);
 
     // Fetch all events from dataService
-    const allEvents = dataService.getEvents();
+    const [events, setEvents] = useState([]);
+
+    useEffect(() => {
+        dataService.getEvents().then(setEvents);
+    }, []);
 
     const upcomingEvents = useMemo(() => {
         const today = new Date();
-        return allEvents.filter(e => new Date(e.date) >= today).sort((a, b) => new Date(a.date) - new Date(b.date));
-    }, [allEvents]);
+        return events.filter(e => new Date(e.date) >= today).sort((a, b) => new Date(a.date) - new Date(b.date));
+    }, [events]);
 
     const pastEvents = useMemo(() => {
         const today = new Date();
-        return allEvents.filter(e => new Date(e.date) < today).sort((a, b) => new Date(b.date) - new Date(a.date));
-    }, [allEvents]);
+        return events.filter(e => new Date(e.date) < today).sort((a, b) => new Date(b.date) - new Date(a.date));
+    }, [events]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);

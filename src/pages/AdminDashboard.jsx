@@ -32,16 +32,24 @@ export default function AdminDashboard() {
     const [previewAudio, setPreviewAudio] = useState(null);
 
     useEffect(() => {
-        setSongs(dataService.getSongs());
-        setEvents(dataService.getEvents());
-        setGallery(dataService.getGallery());
+        const loadData = async () => {
+            const [s, e, g] = await Promise.all([
+                dataService.getSongs(),
+                dataService.getEvents(),
+                dataService.getGallery()
+            ]);
+            setSongs(s);
+            setEvents(e);
+            setGallery(g);
+        };
+        loadData();
     }, []);
 
-    const handleDelete = (type, id) => {
+    const handleDelete = async (type, id) => {
         if (confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')) {
-            if (type === 'music') setSongs(dataService.deleteSong(id));
-            if (type === 'events') setEvents(dataService.deleteEvent(id));
-            if (type === 'gallery') setGallery(dataService.deleteGalleryItem(id));
+            if (type === 'music') setSongs(await dataService.deleteSong(id));
+            if (type === 'events') setEvents(await dataService.deleteEvent(id));
+            if (type === 'gallery') setGallery(await dataService.deleteGalleryItem(id));
         }
     };
 
@@ -123,7 +131,7 @@ export default function AdminDashboard() {
         }
     };
 
-    const handleSave = (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
@@ -140,9 +148,9 @@ export default function AdminDashboard() {
         }
 
         try {
-            if (activeTab === 'music') setSongs(dataService.saveSong(data));
-            if (activeTab === 'events') setEvents(dataService.saveEvent(data));
-            if (activeTab === 'gallery') setGallery(dataService.saveGalleryItem(data));
+            if (activeTab === 'music') setSongs(await dataService.saveSong(data));
+            if (activeTab === 'events') setEvents(await dataService.saveEvent(data));
+            if (activeTab === 'gallery') setGallery(await dataService.saveGalleryItem(data));
 
             setShowModal(false);
             setCurrentItem(null);
@@ -150,11 +158,7 @@ export default function AdminDashboard() {
             setPreviewAudio(null);
         } catch (error) {
             console.error("Save error:", error);
-            if (error.name === 'QuotaExceededError' || error.message.includes('exceeded')) {
-                alert("⚠️ Espace de stockage plein !\n\nL'image est encore trop lourde ou vous avez trop d'éléments sauvegardés.\nEssayez de supprimer quelques anciens éléments ou d'utiliser une image plus petite/externe.");
-            } else {
-                alert("Une erreur est survenue lors de la sauvegarde.");
-            }
+            alert("Une erreur est survenue lors de la sauvegarde.");
         }
     };
 

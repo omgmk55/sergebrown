@@ -6,7 +6,11 @@ import { X, Play, Image as ImageIcon, Video, Camera, Mic } from 'lucide-react';
 export default function Gallery() {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [lightboxImage, setLightboxImage] = useState(null);
-    const galleryItems = dataService.getGallery();
+    const [galleryItems, setGalleryItems] = useState([]);
+
+    useEffect(() => {
+        dataService.getGallery().then(setGalleryItems);
+    }, []);
 
     const categories = [
         { id: 'all', name: 'Tout', icon: ImageIcon },

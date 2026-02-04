@@ -1,7 +1,9 @@
-const STORAGE_KEYS = {
-    SONGS: 'sb_songs',
-    EVENTS: 'sb_events',
-    GALLERY: 'sb_gallery'
+const DB_NAME = 'SergeBrownDB';
+const DB_VERSION = 1;
+const STORES = {
+    SONGS: 'songs',
+    EVENTS: 'events',
+    GALLERY: 'gallery'
 };
 
 const DEFAULT_DATA = {
@@ -121,78 +123,93 @@ const DEFAULT_DATA = {
     ]
 };
 
-// Helper to get data or default
-const get = (key, defaultVal) => {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : defaultVal;
-};
+// IndexedDB Wrapper
+const dbPromise = new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
 
-// Helper to save data
-const set = (key, data) => {
-    localStorage.setItem(key, JSON.stringify(data));
+    request.onerror = (event) => reject('Database error: ' + event.target.error);
+
+    request.onsuccess = (event) => {
+        resolve(event.target.result);
+    };
+
+    request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+
+        // Create object stores
+        if (!db.objectStoreNames.contains(STORES.SONGS)) {
+            const songStore = db.createObjectStore(STORES.SONGS, { keyPath: 'id' });
+            // Seed default data
+            DEFAULT_DATA.songs.forEach(song => songStore.add(song));
+        }
+        if (!db.objectStoreNames.contains(STORES.EVENTS)) {
+            const eventStore = db.createObjectStore(STORES.EVENTS, { keyPath: 'id' });
+            DEFAULT_DATA.events.forEach(event => eventStore.add(event));
+        }
+        if (!db.objectStoreNames.contains(STORES.GALLERY)) {
+            const galleryStore = db.createObjectStore(STORES.GALLERY, { keyPath: 'id' });
+            DEFAULT_DATA.gallery.forEach(item => galleryStore.add(item));
+        }
+    };
+});
+
+const getParams = (storeName) => ({
+    storeName,
+    mode: 'readonly'
+});
+
+const execute = async (storeName, mode, callback) => {
+    const db = await dbPromise;
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(storeName, mode);
+        const store = transaction.objectStore(storeName);
+        const request = callback(store);
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
 };
 
 export const dataService = {
     // MUSIC
-    getSongs: () => get(STORAGE_KEYS.SONGS, DEFAULT_DATA.songs),
-    saveSong: (song) => {
-        const songs = get(STORAGE_KEYS.SONGS, DEFAULT_DATA.songs);
-        if (song.id) {
-            const index = songs.findIndex(s => s.id === song.id);
-            if (index !== -1) songs[index] = song;
-        } else {
-            song.id = Date.now();
-            songs.push(song);
-        }
-        set(STORAGE_KEYS.SONGS, songs);
-        return songs;
+    getSongs: async () => {
+        return execute(STORES.SONGS, 'readonly', store => store.getAll());
     },
-    deleteSong: (id) => {
-        const songs = get(STORAGE_KEYS.SONGS, DEFAULT_DATA.songs);
-        const newSongs = songs.filter(s => s.id !== id);
-        set(STORAGE_KEYS.SONGS, newSongs);
-        return newSongs;
+    saveSong: async (song) => {
+        if (!song.id) song.id = Date.now();
+        await execute(STORES.SONGS, 'readwrite', store => store.put(song));
+        return dataService.getSongs();
+    },
+    deleteSong: async (id) => {
+        await execute(STORES.SONGS, 'readwrite', store => store.delete(id));
+        return dataService.getSongs();
     },
 
     // EVENTS
-    getEvents: () => get(STORAGE_KEYS.EVENTS, DEFAULT_DATA.events),
-    saveEvent: (event) => {
-        const events = get(STORAGE_KEYS.EVENTS, DEFAULT_DATA.events);
-        if (event.id) {
-            const index = events.findIndex(e => e.id === event.id);
-            if (index !== -1) events[index] = event;
-        } else {
-            event.id = Date.now();
-            events.push(event);
-        }
-        set(STORAGE_KEYS.EVENTS, events);
-        return events;
+    getEvents: async () => {
+        return execute(STORES.EVENTS, 'readonly', store => store.getAll());
     },
-    deleteEvent: (id) => {
-        const events = get(STORAGE_KEYS.EVENTS, DEFAULT_DATA.events);
-        const newEvents = events.filter(e => e.id !== id);
-        set(STORAGE_KEYS.EVENTS, newEvents);
-        return newEvents;
+    saveEvent: async (event) => {
+        if (!event.id) event.id = Date.now();
+        await execute(STORES.EVENTS, 'readwrite', store => store.put(event));
+        return dataService.getEvents();
+    },
+    deleteEvent: async (id) => {
+        await execute(STORES.EVENTS, 'readwrite', store => store.delete(id));
+        return dataService.getEvents();
     },
 
     // GALLERY
-    getGallery: () => get(STORAGE_KEYS.GALLERY, DEFAULT_DATA.gallery),
-    saveGalleryItem: (item) => {
-        const gallery = get(STORAGE_KEYS.GALLERY, DEFAULT_DATA.gallery);
-        if (item.id) {
-            const index = gallery.findIndex(g => g.id === item.id);
-            if (index !== -1) gallery[index] = item;
-        } else {
-            item.id = Date.now();
-            gallery.push(item);
-        }
-        set(STORAGE_KEYS.GALLERY, gallery);
-        return gallery;
+    getGallery: async () => {
+        return execute(STORES.GALLERY, 'readonly', store => store.getAll());
     },
-    deleteGalleryItem: (id) => {
-        const gallery = get(STORAGE_KEYS.GALLERY, DEFAULT_DATA.gallery);
-        const newGallery = gallery.filter(g => g.id !== id);
-        set(STORAGE_KEYS.GALLERY, newGallery);
-        return newGallery;
+    saveGalleryItem: async (item) => {
+        if (!item.id) item.id = Date.now();
+        await execute(STORES.GALLERY, 'readwrite', store => store.put(item));
+        return dataService.getGallery();
+    },
+    deleteGalleryItem: async (id) => {
+        await execute(STORES.GALLERY, 'readwrite', store => store.delete(id));
+        return dataService.getGallery();
     }
 };
