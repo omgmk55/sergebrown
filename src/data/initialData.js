@@ -132,6 +132,55 @@ export const getInitialData = () => {
                 date: '2026',
                 category: 'concerts',
                 image: `${baseUrl}gallery/user_upload_3.jpg`
+            },
+            {
+                id: 'gallery-fb-1',
+                title: 'Galerie Photo',
+                date: '2026',
+                category: 'concerts',
+                image: `${baseUrl}gallery/FB_IMG_1770157956767.jpg`
+            },
+            {
+                id: 'gallery-fb-2',
+                title: 'Galerie Photo',
+                date: '2026',
+                category: 'concerts',
+                image: `${baseUrl}gallery/FB_IMG_1770158678466.jpg`
+            },
+            {
+                id: 'gallery-fb-3',
+                title: 'Galerie Photo',
+                date: '2026',
+                category: 'concerts',
+                image: `${baseUrl}gallery/FB_IMG_1770158686603.jpg`
+            },
+            {
+                id: 'gallery-fb-4',
+                title: 'Galerie Photo',
+                date: '2026',
+                category: 'concerts',
+                image: `${baseUrl}gallery/FB_IMG_1770158689419.jpg`
+            },
+            {
+                id: 'gallery-fb-5',
+                title: 'Galerie Photo',
+                date: '2026',
+                category: 'concerts',
+                image: `${baseUrl}gallery/FB_IMG_1770158694867.jpg`
+            },
+            {
+                id: 'gallery-fb-6',
+                title: 'Galerie Photo',
+                date: '2026',
+                category: 'concerts',
+                image: `${baseUrl}gallery/FB_IMG_1770158696671.jpg`
+            },
+            {
+                id: 'gallery-fb-7',
+                title: 'Galerie Photo',
+                date: '2026',
+                category: 'concerts',
+                image: `${baseUrl}gallery/FB_IMG_1770159181606.jpg`
             }
         ],
         events: [

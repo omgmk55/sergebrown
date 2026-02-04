@@ -1,7 +1,7 @@
 import { getInitialData } from '../data/initialData';
 
 const DB_NAME = 'SergeBrownDB';
-const DB_VERSION = 5;
+const DB_VERSION = 6;
 const STORES = {
     SONGS: 'songs',
     EVENTS: 'events',
@@ -60,6 +60,13 @@ const dbPromise = new Promise((resolve, reject) => {
 
             const galleryStore = request.transaction.objectStore(STORES.GALLERY);
             galleryStore.clear(); // Ensure clean slate
+            DEFAULT_DATA.gallery.forEach(item => galleryStore.put(item));
+        }
+
+        if (event.oldVersion < 6) {
+            // Migration for version 6: Add new FB images
+            const galleryStore = request.transaction.objectStore(STORES.GALLERY);
+            galleryStore.clear();
             DEFAULT_DATA.gallery.forEach(item => galleryStore.put(item));
         }
     };
