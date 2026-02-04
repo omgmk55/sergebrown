@@ -1,7 +1,7 @@
 import { getInitialData } from '../data/initialData';
 
 const DB_NAME = 'SergeBrownDB';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const STORES = {
     SONGS: 'songs',
     EVENTS: 'events',
@@ -122,6 +122,46 @@ const DEFAULT_DATA = getInitialData() || {
             date: '2026',
             image: `${import.meta.env.BASE_URL}gallery/portrait1.png`
         },
+        {
+            id: 7,
+            type: 'image',
+            category: 'concerts',
+            title: 'Elengi Lyly',
+            date: '2026',
+            image: `${import.meta.env.BASE_URL}gallery/event-elengi-lyly.jpg`
+        },
+        {
+            id: 8,
+            type: 'image',
+            category: 'concerts',
+            title: 'Mopepe Beach',
+            date: '2026',
+            image: `${import.meta.env.BASE_URL}gallery/event-mopepe-beach.jpg`
+        },
+        {
+            id: 9,
+            type: 'image',
+            category: 'concerts',
+            title: 'Elengi Party',
+            date: '2026',
+            image: `${import.meta.env.BASE_URL}gallery/event-elengi-party2.jpg`
+        },
+        {
+            id: 10,
+            type: 'image',
+            category: 'studio',
+            title: 'Yangi Art',
+            date: '2026',
+            image: `${import.meta.env.BASE_URL}gallery/event-yangi-art.jpg`
+        },
+        {
+            id: 11,
+            type: 'image',
+            category: 'concerts',
+            title: 'Kaka Bana Ngo',
+            date: '2026',
+            image: `${import.meta.env.BASE_URL}gallery/kaka-bana-ngo.jpg`
+        },
     ]
 };
 
@@ -151,6 +191,11 @@ const dbPromise = new Promise((resolve, reject) => {
         if (!db.objectStoreNames.contains(STORES.GALLERY)) {
             const galleryStore = db.createObjectStore(STORES.GALLERY, { keyPath: 'id' });
             DEFAULT_DATA.gallery.forEach(item => galleryStore.add(item));
+        } else if (event.oldVersion < 3) {
+            // Migration for version 3: Add new gallery items
+            const galleryStore = request.transaction.objectStore(STORES.GALLERY);
+            const newItems = DEFAULT_DATA.gallery.filter(item => item.id >= 7);
+            newItems.forEach(item => galleryStore.put(item));
         }
     };
 });
