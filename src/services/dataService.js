@@ -1,7 +1,7 @@
 import { getInitialData } from '../data/initialData';
 
 const DB_NAME = 'SergeBrownDB';
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 const STORES = {
     SONGS: 'songs',
     EVENTS: 'events',
@@ -12,11 +12,67 @@ const DEFAULT_DATA = getInitialData() || {
     songs: [
         {
             id: 1,
-            title: 'Titre du Single',
-            year: '2026',
+            title: 'Annoncer',
+            year: '2025',
             type: 'Single',
-            description: 'Mon dernier single qui mélange des sonorités modernes avec des influences traditionnelles.',
-            audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+            description: 'Titre principal',
+            audioUrl: `${import.meta.env.BASE_URL}music/ANNONCER_Master(0).mp3`
+        },
+        {
+            id: 2,
+            title: 'BZS Bombé',
+            year: '2025',
+            type: 'Single',
+            description: 'BZS Bombé',
+            audioUrl: `${import.meta.env.BASE_URL}music/BZS Bombé.mp3`
+        },
+        {
+            id: 3,
+            title: 'Hommage Isaac Polesa',
+            year: '2025',
+            type: 'Single',
+            description: 'Hommage vibrant',
+            audioUrl: `${import.meta.env.BASE_URL}music/Hommage Isaac Polesa.mp3`
+        },
+        {
+            id: 4,
+            title: 'Mwasi Mongala',
+            year: '2025',
+            type: 'Single',
+            description: 'Mwasi Mongala',
+            audioUrl: `${import.meta.env.BASE_URL}music/Mwasi_mongala_Master.mp3`
+        },
+        {
+            id: 5,
+            title: 'Budaa',
+            year: '2025',
+            type: 'Featuring',
+            description: 'Serge Brown x DX-MAN',
+            audioUrl: `${import.meta.env.BASE_URL}music/SERGE BROWN x DX-MAN_BUDAA-Master.mp3`
+        },
+        {
+            id: 6,
+            title: 'Banna Ngo',
+            year: '2025',
+            type: 'Single',
+            description: 'Kaka Bana Ngo',
+            audioUrl: `${import.meta.env.BASE_URL}music/Serge Brown Bana Ngo.mp3`
+        },
+        {
+            id: 7,
+            title: 'Whisky Pêche',
+            year: '2025',
+            type: 'Single',
+            description: 'Ambiance détente',
+            audioUrl: `${import.meta.env.BASE_URL}music/Serge Brown Whisky Peche.mp3`
+        },
+        {
+            id: 8,
+            title: 'Unité Limete Bomoko',
+            year: '2025',
+            type: 'Single',
+            description: 'Hymne à l\'unité',
+            audioUrl: `${import.meta.env.BASE_URL}music/Unité Limete Bomoko.mp3`
         },
         {
             id: 2,
@@ -162,6 +218,30 @@ const DEFAULT_DATA = getInitialData() || {
             date: '2026',
             image: `${import.meta.env.BASE_URL}gallery/kaka-bana-ngo.jpg`
         },
+        {
+            id: 12,
+            type: 'image',
+            category: 'studio',
+            title: 'Session Studio',
+            date: '2026',
+            image: `${import.meta.env.BASE_URL}gallery/user_upload_1.jpg`
+        },
+        {
+            id: 13,
+            type: 'image',
+            category: 'concerts',
+            title: 'Live Performance',
+            date: '2026',
+            image: `${import.meta.env.BASE_URL}gallery/user_upload_2.jpg`
+        },
+        {
+            id: 14,
+            type: 'image',
+            category: 'concerts',
+            title: 'Backstage',
+            date: '2026',
+            image: `${import.meta.env.BASE_URL}gallery/user_upload_3.jpg`
+        },
     ]
 };
 
@@ -196,6 +276,15 @@ const dbPromise = new Promise((resolve, reject) => {
             const galleryStore = request.transaction.objectStore(STORES.GALLERY);
             const newItems = DEFAULT_DATA.gallery.filter(item => item.id >= 7);
             newItems.forEach(item => galleryStore.put(item));
+        }
+
+        if (event.oldVersion < 4) {
+            // Migration for version 4: Update songs and gallery
+            const songStore = request.transaction.objectStore(STORES.SONGS);
+            DEFAULT_DATA.songs.forEach(song => songStore.put(song));
+
+            const galleryStore = request.transaction.objectStore(STORES.GALLERY);
+            DEFAULT_DATA.gallery.forEach(item => galleryStore.put(item));
         }
     };
 });
