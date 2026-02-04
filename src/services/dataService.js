@@ -1,249 +1,14 @@
 import { getInitialData } from '../data/initialData';
 
 const DB_NAME = 'SergeBrownDB';
-const DB_VERSION = 4;
+const DB_VERSION = 5;
 const STORES = {
     SONGS: 'songs',
     EVENTS: 'events',
     GALLERY: 'gallery'
 };
 
-const DEFAULT_DATA = getInitialData() || {
-    songs: [
-        {
-            id: 1,
-            title: 'Annoncer',
-            year: '2025',
-            type: 'Single',
-            description: 'Titre principal',
-            audioUrl: `${import.meta.env.BASE_URL}music/ANNONCER_Master(0).mp3`
-        },
-        {
-            id: 2,
-            title: 'BZS Bombé',
-            year: '2025',
-            type: 'Single',
-            description: 'BZS Bombé',
-            audioUrl: `${import.meta.env.BASE_URL}music/BZS Bombé.mp3`
-        },
-        {
-            id: 3,
-            title: 'Hommage Isaac Polesa',
-            year: '2025',
-            type: 'Single',
-            description: 'Hommage vibrant',
-            audioUrl: `${import.meta.env.BASE_URL}music/Hommage Isaac Polesa.mp3`
-        },
-        {
-            id: 4,
-            title: 'Mwasi Mongala',
-            year: '2025',
-            type: 'Single',
-            description: 'Mwasi Mongala',
-            audioUrl: `${import.meta.env.BASE_URL}music/Mwasi_mongala_Master.mp3`
-        },
-        {
-            id: 5,
-            title: 'Budaa',
-            year: '2025',
-            type: 'Featuring',
-            description: 'Serge Brown x DX-MAN',
-            audioUrl: `${import.meta.env.BASE_URL}music/SERGE BROWN x DX-MAN_BUDAA-Master.mp3`
-        },
-        {
-            id: 6,
-            title: 'Banna Ngo',
-            year: '2025',
-            type: 'Single',
-            description: 'Kaka Bana Ngo',
-            audioUrl: `${import.meta.env.BASE_URL}music/Serge Brown Bana Ngo.mp3`
-        },
-        {
-            id: 7,
-            title: 'Whisky Pêche',
-            year: '2025',
-            type: 'Single',
-            description: 'Ambiance détente',
-            audioUrl: `${import.meta.env.BASE_URL}music/Serge Brown Whisky Peche.mp3`
-        },
-        {
-            id: 8,
-            title: 'Unité Limete Bomoko',
-            year: '2025',
-            type: 'Single',
-            description: 'Hymne à l\'unité',
-            audioUrl: `${import.meta.env.BASE_URL}music/Unité Limete Bomoko.mp3`
-        },
-        {
-            id: 2,
-            title: 'Album Précédent',
-            year: '2025',
-            type: 'Album',
-            description: 'Un projet complet qui explore différentes facettes de mon univers musical.',
-            audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
-        },
-        {
-            id: 3,
-            title: 'Premier EP',
-            year: '2024',
-            type: 'EP',
-            description: 'Mes premiers pas dans l\'industrie musicale avec 5 titres originaux.',
-            audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
-        },
-    ],
-    events: [
-        {
-            id: 1,
-            title: 'Concert Live Paris',
-            venue: 'Olympia',
-            city: 'Paris',
-            country: 'France',
-            date: '2026-03-15',
-            time: '20:00',
-            status: 'available',
-            ticketUrl: '#',
-            description: 'Un concert exceptionnel dans la salle mythique de l\'Olympia'
-        },
-        {
-            id: 2,
-            title: 'Festival Summer Vibes',
-            venue: 'Parc des Expositions',
-            city: 'Lyon',
-            country: 'France',
-            date: '2026-06-20',
-            time: '18:30',
-            status: 'available',
-            ticketUrl: '#',
-            description: 'Performance au grand festival d\'été'
-        },
-        {
-            id: 3,
-            title: 'Tournée Européenne',
-            venue: 'Ancienne Belgique',
-            city: 'Bruxelles',
-            country: 'Belgique',
-            date: '2026-09-10',
-            time: '21:00',
-            status: 'sold-out',
-            ticketUrl: '#',
-            description: 'Date complète - Liste d\'attente disponible'
-        },
-    ],
-    gallery: [
-        {
-            id: 1,
-            type: 'image',
-            category: 'concerts',
-            title: 'Concert Live - The Apollo',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/concert1.png`
-        },
-        {
-            id: 2,
-            type: 'image',
-            category: 'studio',
-            title: 'Session Studio',
-            date: '2025',
-            image: `${import.meta.env.BASE_URL}gallery/studio1.png`
-        },
-        {
-            id: 3,
-            type: 'image',
-            category: 'concerts',
-            title: 'Aurora Festival',
-            date: '2025',
-            image: `${import.meta.env.BASE_URL}gallery/concert2.png`
-        },
-        {
-            id: 4,
-            type: 'image',
-            category: 'studio',
-            title: 'Behind the Scenes',
-            date: '2025',
-            image: `${import.meta.env.BASE_URL}gallery/studio2.png`
-        },
-        {
-            id: 5,
-            type: 'image',
-            category: 'concerts',
-            title: 'Festival Sunset',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/concert3.png`
-        },
-        {
-            id: 6,
-            type: 'image',
-            category: 'concerts',
-            title: 'Portrait Artistique',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/portrait1.png`
-        },
-        {
-            id: 7,
-            type: 'image',
-            category: 'concerts',
-            title: 'Elengi Lyly',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/event-elengi-lyly.jpg`
-        },
-        {
-            id: 8,
-            type: 'image',
-            category: 'concerts',
-            title: 'Mopepe Beach',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/event-mopepe-beach.jpg`
-        },
-        {
-            id: 9,
-            type: 'image',
-            category: 'concerts',
-            title: 'Elengi Party',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/event-elengi-party2.jpg`
-        },
-        {
-            id: 10,
-            type: 'image',
-            category: 'studio',
-            title: 'Yangi Art',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/event-yangi-art.jpg`
-        },
-        {
-            id: 11,
-            type: 'image',
-            category: 'concerts',
-            title: 'Kaka Bana Ngo',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/kaka-bana-ngo.jpg`
-        },
-        {
-            id: 12,
-            type: 'image',
-            category: 'studio',
-            title: 'Session Studio',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/user_upload_1.jpg`
-        },
-        {
-            id: 13,
-            type: 'image',
-            category: 'concerts',
-            title: 'Live Performance',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/user_upload_2.jpg`
-        },
-        {
-            id: 14,
-            type: 'image',
-            category: 'concerts',
-            title: 'Backstage',
-            date: '2026',
-            image: `${import.meta.env.BASE_URL}gallery/user_upload_3.jpg`
-        },
-    ]
-};
+const DEFAULT_DATA = getInitialData();
 
 // IndexedDB Wrapper
 const dbPromise = new Promise((resolve, reject) => {
@@ -286,8 +51,18 @@ const dbPromise = new Promise((resolve, reject) => {
             const galleryStore = request.transaction.objectStore(STORES.GALLERY);
             DEFAULT_DATA.gallery.forEach(item => galleryStore.put(item));
         }
-    };
-});
+
+        if (event.oldVersion < 5) {
+            // Migration for version 5: Update songs and gallery from correct source
+            const songStore = request.transaction.objectStore(STORES.SONGS);
+            songStore.clear(); // Ensure clean slate
+            DEFAULT_DATA.songs.forEach(song => songStore.put(song));
+
+            const galleryStore = request.transaction.objectStore(STORES.GALLERY);
+            galleryStore.clear(); // Ensure clean slate
+            DEFAULT_DATA.gallery.forEach(item => galleryStore.put(item));
+        }
+    });
 
 const getParams = (storeName) => ({
     storeName,

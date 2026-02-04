@@ -4,13 +4,75 @@ export const getInitialData = () => {
     return {
         songs: [
             {
-                id: 'song-1',
-                title: 'Kaka Bana Ngo',
-                year: '2023',
+                id: 1,
+                title: 'Annoncer',
+                year: '2025',
                 type: 'Single',
-                description: 'Single sorti en novembre 2023',
-                cover: `${baseUrl}gallery/kaka-bana-ngo.jpg`,
-                audioUrl: '#', // Placeholder - user will add real MP3
+                description: 'Titre principal',
+                audioUrl: `${baseUrl}music/ANNONCER_Master(0).mp3`,
+                listeners: 0
+            },
+            {
+                id: 2,
+                title: 'BZS Bombé',
+                year: '2025',
+                type: 'Single',
+                description: 'BZS Bombé',
+                audioUrl: `${baseUrl}music/BZS Bombé.mp3`,
+                listeners: 0
+            },
+            {
+                id: 3,
+                title: 'Hommage Isaac Polesa',
+                year: '2025',
+                type: 'Single',
+                description: 'Hommage vibrant',
+                audioUrl: `${baseUrl}music/Hommage Isaac Polesa.mp3`,
+                listeners: 0
+            },
+            {
+                id: 4,
+                title: 'Mwasi Mongala',
+                year: '2025',
+                type: 'Single',
+                description: 'Mwasi Mongala',
+                audioUrl: `${baseUrl}music/Mwasi_mongala_Master.mp3`,
+                listeners: 0
+            },
+            {
+                id: 5,
+                title: 'Budaa',
+                year: '2025',
+                type: 'Featuring',
+                description: 'Serge Brown x DX-MAN',
+                audioUrl: `${baseUrl}music/SERGE BROWN x DX-MAN_BUDAA-Master.mp3`,
+                listeners: 0
+            },
+            {
+                id: 6,
+                title: 'Banna Ngo',
+                year: '2025',
+                type: 'Single',
+                description: 'Kaka Bana Ngo',
+                audioUrl: `${baseUrl}music/Serge Brown Bana Ngo.mp3`,
+                listeners: 0
+            },
+            {
+                id: 7,
+                title: 'Whisky Pêche',
+                year: '2025',
+                type: 'Single',
+                description: 'Ambiance détente',
+                audioUrl: `${baseUrl}music/Serge Brown Whisky Peche.mp3`,
+                listeners: 0
+            },
+            {
+                id: 8,
+                title: 'Unité Limete Bomoko',
+                year: '2025',
+                type: 'Single',
+                description: 'Hymne à l\'unité',
+                audioUrl: `${baseUrl}music/Unité Limete Bomoko.mp3`,
                 listeners: 0
             }
         ],
@@ -49,6 +111,27 @@ export const getInitialData = () => {
                 date: '10 Novembre 2023',
                 category: 'studio',
                 image: `${baseUrl}gallery/kaka-bana-ngo.jpg`
+            },
+            {
+                id: 'gallery-6',
+                title: 'Session Studio',
+                date: '2026',
+                category: 'studio',
+                image: `${baseUrl}gallery/user_upload_1.jpg`
+            },
+            {
+                id: 'gallery-7',
+                title: 'Live Performance',
+                date: '2026',
+                category: 'concerts',
+                image: `${baseUrl}gallery/user_upload_2.jpg`
+            },
+            {
+                id: 'gallery-8',
+                title: 'Backstage',
+                date: '2026',
+                category: 'concerts',
+                image: `${baseUrl}gallery/user_upload_3.jpg`
             }
         ],
         events: [
