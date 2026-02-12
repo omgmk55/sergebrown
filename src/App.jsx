@@ -23,8 +23,9 @@ function GlobalAudioPlayer() {
 }
 
 function AppContent() {
+  const basename = import.meta.env.BASE_URL.replace(/\/$/, "");
   return (
-    <Router basename={import.meta.env.BASE_URL}>
+    <Router basename={basename}>
       <ScrollToTop />
       <div className="relative min-h-screen flex flex-col">
         <Navbar />
