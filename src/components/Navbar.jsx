@@ -88,14 +88,14 @@ export default function Navbar() {
                                     )}
                                 </button>
 
-                                {/* Profile Menu Dropdown */}
+                                {/* Profile Menu Dropdown - Desktop Only */}
                                 <AnimatePresence>
                                     {showProfileMenu && (
                                         <motion.div
                                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                            className="absolute right-0 mt-2 w-64 glass-dark rounded-xl border border-white/10 shadow-xl overflow-hidden"
+                                            className="hidden md:block absolute right-0 mt-2 w-64 glass-dark rounded-xl border border-white/10 shadow-xl overflow-hidden"
                                         >
                                             <div className="p-4 border-b border-white/10">
                                                 <div className="font-bold text-white">{user?.name || 'Fan'}</div>
@@ -142,20 +142,25 @@ export default function Navbar() {
 
                         {/* Mobile menu button */}
                         <div className="flex items-center gap-4 md:hidden">
-                            <button
-                                onClick={() => isLoggedIn ? setShowProfileMenu(!showProfileMenu) : setShowLoginModal(true)}
-                                className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition-colors"
-                            >
-                                {isLoggedIn ? (
+                            {isLoggedIn ? (
+                                <Link
+                                    to="/profile"
+                                    className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition-colors"
+                                >
                                     <div className="w-full h-full rounded-full bg-gradient-gold p-[2px]">
                                         <div className="w-full h-full rounded-full bg-rich-black flex items-center justify-center text-gold font-bold">
                                             S
                                         </div>
                                     </div>
-                                ) : (
+                                </Link>
+                            ) : (
+                                <button
+                                    onClick={() => setShowLoginModal(true)}
+                                    className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition-colors"
+                                >
                                     <User className="w-5 h-5 text-off-white" />
-                                )}
-                            </button>
+                                </button>
+                            )}
 
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
@@ -188,6 +193,49 @@ export default function Navbar() {
                                         {link.name}
                                     </Link>
                                 ))}
+
+                                {/* Mobile User Menu */}
+                                {isLoggedIn && (
+                                    <>
+                                        <div className="border-t border-white/10 my-2 pt-2">
+                                            <div className="px-2 py-2 text-xs text-gray-500 uppercase font-bold tracking-wider">
+                                                Compte
+                                            </div>
+                                            <Link
+                                                to="/profile"
+                                                onClick={() => setIsOpen(false)}
+                                                className="block text-off-white hover:text-gold transition-colors py-2 flex items-center gap-3"
+                                            >
+                                                <User className="w-4 h-4" /> Mon Profil
+                                            </Link>
+                                            <Link
+                                                to="/settings"
+                                                onClick={() => setIsOpen(false)}
+                                                className="block text-off-white hover:text-gold transition-colors py-2 flex items-center gap-3"
+                                            >
+                                                <Settings className="w-4 h-4" /> Paramètres
+                                            </Link>
+                                            {isAdmin && (
+                                                <Link
+                                                    to="/admin"
+                                                    onClick={() => setIsOpen(false)}
+                                                    className="block text-gold hover:text-white transition-colors py-2 flex items-center gap-3"
+                                                >
+                                                    <LayoutDashboard className="w-4 h-4" /> Dashboard
+                                                </Link>
+                                            )}
+                                            <button
+                                                onClick={() => {
+                                                    handleLogout();
+                                                    setIsOpen(false);
+                                                }}
+                                                className="w-full text-left text-red-400 hover:text-red-300 transition-colors py-2 flex items-center gap-3"
+                                            >
+                                                <LogOut className="w-4 h-4" /> Déconnexion
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </motion.div>
                     )}
