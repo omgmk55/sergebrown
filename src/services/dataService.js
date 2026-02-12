@@ -1,183 +1,55 @@
-import { getInitialData } from '../data/initialData';
+import { supabaseService } from './supabaseService';
 
-const DB_NAME = 'SergeBrownDB';
-const DB_VERSION = 6;
-const STORES = {
-    SONGS: 'songs',
-    EVENTS: 'events',
-    GALLERY: 'gallery'
-};
-
-const DEFAULT_DATA = getInitialData();
-
-// IndexedDB Wrapper
-const dbPromise = new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-    request.onerror = (event) => reject('Database error: ' + event.target.error);
-
-    request.onsuccess = (event) => {
-        resolve(event.target.result);
-    };
-
-    request.onupgradeneeded = (event) => {
-        const db = event.target.result;
-
-        // Create object stores
-        if (!db.objectStoreNames.contains(STORES.SONGS)) {
-            const songStore = db.createObjectStore(STORES.SONGS, { keyPath: 'id' });
-            // Seed default data
-            DEFAULT_DATA.songs.forEach(song => songStore.add(song));
-        }
-        if (!db.objectStoreNames.contains(STORES.EVENTS)) {
-            const eventStore = db.createObjectStore(STORES.EVENTS, { keyPath: 'id' });
-            DEFAULT_DATA.events.forEach(event => eventStore.add(event));
-        }
-        if (!db.objectStoreNames.contains(STORES.GALLERY)) {
-            const galleryStore = db.createObjectStore(STORES.GALLERY, { keyPath: 'id' });
-            DEFAULT_DATA.gallery.forEach(item => galleryStore.add(item));
-        } else if (event.oldVersion < 3) {
-            // Migration for version 3: Add new gallery items
-            const galleryStore = request.transaction.objectStore(STORES.GALLERY);
-            const newItems = DEFAULT_DATA.gallery.filter(item => item.id >= 7);
-            newItems.forEach(item => galleryStore.put(item));
-        }
-
-        if (event.oldVersion < 4) {
-            // Migration for version 4: Update songs and gallery
-            const songStore = request.transaction.objectStore(STORES.SONGS);
-            DEFAULT_DATA.songs.forEach(song => songStore.put(song));
-
-            const galleryStore = request.transaction.objectStore(STORES.GALLERY);
-            DEFAULT_DATA.gallery.forEach(item => galleryStore.put(item));
-        }
-
-        if (event.oldVersion < 5) {
-            // Migration for version 5: Update songs and gallery from correct source
-            const songStore = request.transaction.objectStore(STORES.SONGS);
-            songStore.clear(); // Ensure clean slate
-            DEFAULT_DATA.songs.forEach(song => songStore.put(song));
-
-            const galleryStore = request.transaction.objectStore(STORES.GALLERY);
-            galleryStore.clear(); // Ensure clean slate
-            DEFAULT_DATA.gallery.forEach(item => galleryStore.put(item));
-        }
-
-        if (event.oldVersion < 6) {
-            // Migration for version 6: Add new FB images
-            const galleryStore = request.transaction.objectStore(STORES.GALLERY);
-            galleryStore.clear();
-            DEFAULT_DATA.gallery.forEach(item => galleryStore.put(item));
-        }
-    };
-});
-
-const getParams = (storeName) => ({
-    storeName,
-    mode: 'readonly'
-});
-
-const execute = async (storeName, mode, callback) => {
-    const db = await dbPromise;
-    return new Promise((resolve, reject) => {
-        const transaction = db.transaction(storeName, mode);
-        const store = transaction.objectStore(storeName);
-        const request = callback(store);
-
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-    });
-};
-
+/**
+ * Service de données - Interface unifiée pour la gestion des données
+ * Utilise maintenant Supabase pour le stockage cloud au lieu d'IndexedDB
+ */
 export const dataService = {
-    // MUSIC
+    // ========== MUSIQUE ==========
     getSongs: async () => {
-        return execute(STORES.SONGS, 'readonly', store => store.getAll());
+        return supabaseService.getSongs();
     },
+
     saveSong: async (song) => {
-        if (!song.id) song.id = Date.now();
-        await execute(STORES.SONGS, 'readwrite', store => store.put(song));
-        return dataService.getSongs();
+        return supabaseService.saveSong(song);
     },
+
     deleteSong: async (id) => {
-        await execute(STORES.SONGS, 'readwrite', store => store.delete(id));
-        return dataService.getSongs();
+        return supabaseService.deleteSong(id);
     },
+
     incrementSongListeners: async (id) => {
-        const db = await dbPromise;
-        return new Promise((resolve, reject) => {
-            const transaction = db.transaction(STORES.SONGS, 'readwrite');
-            const store = transaction.objectStore(STORES.SONGS);
-            const request = store.get(id);
-
-            request.onsuccess = () => {
-                const song = request.result;
-                if (song) {
-                    song.listeners = (song.listeners || 0) + 1;
-                    store.put(song);
-                    resolve(song.listeners);
-                } else {
-                    resolve(0);
-                }
-            };
-            request.onerror = () => reject(request.error);
-        });
+        return supabaseService.incrementSongListeners(id);
     },
 
-    // EVENTS
+    // ========== ÉVÉNEMENTS ==========
     getEvents: async () => {
-        return execute(STORES.EVENTS, 'readonly', store => store.getAll());
+        return supabaseService.getEvents();
     },
+
     saveEvent: async (event) => {
-        if (!event.id) event.id = Date.now();
-        await execute(STORES.EVENTS, 'readwrite', store => store.put(event));
-        return dataService.getEvents();
+        return supabaseService.saveEvent(event);
     },
+
     deleteEvent: async (id) => {
-        await execute(STORES.EVENTS, 'readwrite', store => store.delete(id));
-        return dataService.getEvents();
+        return supabaseService.deleteEvent(id);
     },
 
-    // GALLERY
+    // ========== GALERIE ==========
     getGallery: async () => {
-        return execute(STORES.GALLERY, 'readonly', store => store.getAll());
+        return supabaseService.getGallery();
     },
+
     saveGalleryItem: async (item) => {
-        if (!item.id) item.id = Date.now();
-        await execute(STORES.GALLERY, 'readwrite', store => store.put(item));
-        return dataService.getGallery();
+        return supabaseService.saveGalleryItem(item);
     },
+
     deleteGalleryItem: async (id) => {
-        await execute(STORES.GALLERY, 'readwrite', store => store.delete(id));
-        return dataService.getGallery();
+        return supabaseService.deleteGalleryItem(id);
     },
 
-    // EXPORT ALL DATA
+    // ========== EXPORT ==========
     exportAllData: async () => {
-        const [songs, events, gallery] = await Promise.all([
-            dataService.getSongs(),
-            dataService.getEvents(),
-            dataService.getGallery()
-        ]);
-
-        const exportData = {
-            songs,
-            events,
-            gallery,
-            exportDate: new Date().toISOString()
-        };
-
-        // Create downloadable JSON file
-        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `sergebrown-data-${Date.now()}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        return exportData;
+        return supabaseService.exportAllData();
     }
 };
